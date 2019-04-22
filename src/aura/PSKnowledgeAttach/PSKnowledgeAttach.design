@@ -1,0 +1,7 @@
+<design:component>
+    <design:attribute name="title" label="Title of component" />
+    <design:attribute name="maxResults" label="Search results limit (integer)" description="Maximum # of search results to show"/>
+    <design:attribute name="autoSearch" label="Auto search" description="Automatically perform search on record load"/>
+    <design:attribute name="searchField" label="Search field API name" description="Field API name to use for auto-search"/>
+    <design:attribute name="extraFields" label="Search result extra fields" description="Comma separated list of field API names to show in search results"/>
+</design:component>

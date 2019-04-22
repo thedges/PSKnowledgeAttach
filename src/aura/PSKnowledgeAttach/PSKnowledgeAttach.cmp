@@ -1,0 +1,62 @@
+<aura:component controller="PSKnowledgeAttachController" implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="title" type="String" default="Knowledge Search v1"/>
+    <aura:attribute name="maxResults" type="Integer" default="5"/>
+    <aura:attribute name="objectName" type="String" default=""/>
+    <aura:attribute name="queryStr" type="String" default=""/>
+    <aura:attribute name="searchResults" type="Object" default=""/>
+    <aura:attribute name="autoSearch" type="Boolean" default="false"/>
+    <aura:attribute name="searchField" type="String"/>
+    <aura:attribute name="extraFields" type="String"/>
+    <aura:attribute name="extraFieldsNames" type="List"/>
+    <aura:attribute name="extraFieldsDefs" type="List"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.recordId}" action="{!c.onRecordIdChange}"/>
+    <aura:handler event="force:refreshView" action="{!c.refreshView}"/>
+    
+    <aura:attribute name="IsSpinner" type="Boolean" default="false"/>
+    
+    <div class="slds-card" style="border: none;border-radius: 5px;">
+        <aura:if isTrue="{!v.IsSpinner}">
+            <lightning:spinner variant="brand" size="large" />
+        </aura:if>
+        <div class="c-container slds-p-bottom_small">
+            
+            <legend class="slds-text-heading--small slds-p-left_small slds-p-top_small">
+                <lightning:icon iconName="standard:knowledge" alternativeText="Knowledge Search"/>
+                <span class="slds-p-left_small" style="font-weight:bold;color:#006699;">{!v.title}</span>
+            </legend>
+            <lightning:layout >
+                <lightning:layoutItem padding="around-small" size="9">
+                    <ui:inputText placeholder="Enter search criteria" value="{!v.queryStr}" keyup="{!c.searchEvent}"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="2">
+                    <lightning:button variant="brand"  label="Search" onclick="{! c.handleSearch }"/>
+                </lightning:layoutItem> 
+            </lightning:layout>
+            <aura:renderIf isTrue="{!and(v.searchResults != null, v.searchResults.length > 0)}">
+                <aura:iteration items="{!v.searchResults}" var="result" indexVar="i">
+                    <div class="slds-p-around_medium">
+                        <p class="result-title slds-p-bottom_small">
+                            <lightning:icon iconName="standard:document" alternativeText="Document" size="small"/>
+                            <span class="slds-p-left_x-small" onclick="{!c.popDoc}" style="cursor: pointer;" id="{!result.Id}">{!result.ArticleNumber + ' - ' + result.Title}</span>
+                            <aura:renderIf isTrue="{!result.Attached == false}">
+                              <img class="slds-p-left_x-small" src="/resource/PSKnowledgeAttach/PaperclipIcon.png" height="30" width="30" onclick="{!c.attachDoc}" style="cursor: pointer;" id="{!result.Id}"></img>
+                            </aura:renderIf>
+                        </p>
+                        <p class="result-text">
+                            <aura:iteration items="{!v.extraFieldsDefs}" var="fldDef">
+                                <b>{!fldDef.label}:</b>&nbsp;<c:PSKnowledgeObjectField object="{!result}" fieldName="{!fldDef.name}"/>
+                                <br/>
+                            </aura:iteration>
+                            <br/>
+                            {!result.Summary}
+                        </p>
+                    </div>
+                    
+                </aura:iteration>
+            </aura:renderIf>
+        </div>
+    </div>
+</aura:component>
