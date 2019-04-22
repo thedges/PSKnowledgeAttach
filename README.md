@@ -25,7 +25,7 @@ Here are the configuration options:
 
 Here is example of a configuration done for a demo:
 
-![alt text](https://github.com/thedges/PSKnowledgeAttach/blob/master/PSKnowledgeAttach-Config.png "PSKnowledgeAttach Config")
+![alt text](https://github.com/thedges/PSKnowledgeAttach/blob/master/PSKnowledgeAttach-Config.gif "PSKnowledgeAttach Config")
 
 # Setup Instructions
 Here are steps to setup and configure this component:
